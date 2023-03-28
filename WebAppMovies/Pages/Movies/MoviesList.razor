@@ -1,0 +1,99 @@
+﻿@page "/Movies"
+@inject IRepository _repository
+
+<h3>MoviesList</h3>
+
+<MudTable Items="@Movies" Virtualize="true">
+    <HeaderContent>
+        <MudTh>Cover</MudTh>
+        <MudTh>Title</MudTh>
+        <MudTh>Description</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd><img src="@context.Cover" width="100" height="100" alt="Descripción de la imagen" /></MudTd>
+        <MudTd>@context.Title</MudTd>
+        <MudTd>@context.Description</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<Movies> Movies { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await _repository.Get<List<Movies>>("api/Movies");
+            if (response.Error)
+            {
+                Console.WriteLine(response.GetBody());
+            }
+            else if (response.Response != null)
+            {
+                Movies = response.Response;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Manejar el error de alguna manera, por ejemplo, mostrar un mensaje de error en la página
+        }
+    }
+}
+
+
+
+
+
+
+@*
+     <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title:</th>
+                <th>Description:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <GenericList Lists="Movies">
+                <RecordFound>
+                    @foreach (var movie in Movies)
+                    {
+                        <tr>
+                            <td><img src=@movie.Cover width="100" height="100"  alt="Descripción de la imagen"></td>
+                            <td>@movie.Title</td>
+                            <td>@movie.Description</td>
+                        </tr>
+                    }
+                </RecordFound>
+            </GenericList>          
+        </tbody>
+    </table>
+    
+
+@code {
+    private List<Movies> Movies {get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await _repository.Get<List<Movies>>("api/Movies");
+            if (response.Error)
+            {
+                Console.WriteLine(response.GetBody());
+            }
+            else if (response.Response != null) // Agregar esta verificación
+            {
+                Movies = response.Response;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Manejar el error de alguna manera, por ejemplo, mostrar un mensaje de error en la página
+        }
+    }
+}*@
+
