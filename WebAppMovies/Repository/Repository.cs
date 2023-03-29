@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 
 namespace WebAppMovies.Repository
 {
@@ -20,7 +21,8 @@ namespace WebAppMovies.Repository
         //Borra la pelicula
         public async Task<HttpResponseWrapper<object>> Delete(string url)
         {
-            throw new NotImplementedException();
+            var responseHttp = await _httpClient.DeleteAsync(url);
+            return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
 
@@ -42,17 +44,35 @@ namespace WebAppMovies.Repository
         // Agrega una nueva pelicula
         public async Task<HttpResponseWrapper<object>> Post<T>(string url, T data)
         {
-            throw new NotImplementedException();
+            var json = JsonSerializer.Serialize(data);
+            var context = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, context);
+            return new HttpResponseWrapper<object>(null, !response.IsSuccessStatusCode, response);
+
         }
         //Optione la respuesta de agregar una nueva pelicula
         public async Task<HttpResponseWrapper<TResponse>> Post<T, TResponse>(string url, T data)
         {
-            throw new NotImplementedException();
+            var json = JsonSerializer.Serialize(data);
+            var context = new StringContent(json, Encoding.UTF8, "application/json");
+            var responseHttp = await _httpClient.PostAsync(url, context);
+            if (responseHttp.IsSuccessStatusCode)
+            {
+                var response = await DeserializeResponse<TResponse>(responseHttp, _serializerOptions);
+                return new HttpResponseWrapper<TResponse>(response, false, responseHttp);
+            }
+            else
+            {
+                return new HttpResponseWrapper<TResponse>(default, true, responseHttp);
+            }
         }
         //Para actualizar la pelicula
         public async Task<HttpResponseWrapper<object>> Put<T>(string url, T data)
         {
-            throw new NotImplementedException();
+            var json = JsonSerializer.Serialize(data);
+            var context = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(url, context);
+            return new HttpResponseWrapper<object>(null, !response.IsSuccessStatusCode, response);
         }
     }
 }

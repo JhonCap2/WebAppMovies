@@ -9,8 +9,6 @@ namespace WebAppMovies.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public string Cover { get; set; }
-
-        [JsonIgnore]
         public virtual Classifications? IdClassificationNavigation { get; set; }
 
     }

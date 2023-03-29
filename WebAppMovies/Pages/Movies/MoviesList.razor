@@ -8,11 +8,13 @@
         <MudTh>Cover</MudTh>
         <MudTh>Title</MudTh>
         <MudTh>Description</MudTh>
+        <MudTh>Classification</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd><img src="@context.Cover" width="100" height="100" alt="Descripción de la imagen" /></MudTd>
         <MudTd>@context.Title</MudTd>
         <MudTd>@context.Description</MudTd>
+        <MudTd>@context.IdClassificationNavigation.Name</MudTd>
     </RowTemplate>
 </MudTable>
 
