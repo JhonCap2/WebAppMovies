@@ -1,9 +1,9 @@
 ﻿<MudCard>
     <EditForm Model="Movie" OnSubmit="OnDataAnnotationsValidated">
         <MudCardContent>
-            <MudTextField @bind-Value="@Movie.Title" Label="Title" />
-            <MudTextField @bind-Value="@Movie.Cover" Label="Cover" />
-            <MudTextField @bind-Value="@Movie.Description" Label="Description" />
+            <MudTextField @bind-Value="@Movie.Title" Text="@Movie.Title" Label="Title" />
+            <MudTextField @bind-Value="@Movie.Cover" Text="@Movie.Cover" Label="Cover" />
+            <MudTextField @bind-Value="@Movie.Description" Text="@Movie.Description" Label="Description" />
             <MudSelect T="int" Label="Classification" Variant="Variant.Text" @bind-Value="@Movie.IdClassification">
                 @foreach (var classifaication in SelectClassification)
                 {
@@ -22,8 +22,6 @@
 
     private async Task OnDataAnnotationsValidated()
     {
-
-
         await OnValidSubmit.InvokeAsync(null);
     }
 }

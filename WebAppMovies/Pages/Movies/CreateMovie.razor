@@ -1,27 +1,22 @@
 ﻿@page "/CreateMovie"
 @inject IRepository _repository
 
-
 <h3>CreateMovie</h3>
-
 <MovieForm Movie="Movie" OnValidSubmit="SaveMovie" SelectClassification="SelectClassification" />
 
 @code {
     public Movies Movie = new Movies();
     private List<Classifications>? SelectClassification = new();
 
-
     protected async override Task OnInitializedAsync()
     {
         var responseHttp = await _repository.Get<List<Classifications>>("/api/Classification");
         SelectClassification = responseHttp.Response;
-
     }
     private async Task SaveMovie()
     {
         var responseHttp = await _repository.Post<Movies>("/api/Movies", Movie);
         Console.WriteLine(responseHttp.Response);
-     
     }
 }
 

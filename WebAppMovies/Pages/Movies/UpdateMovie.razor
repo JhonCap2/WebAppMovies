@@ -1,0 +1,25 @@
+﻿@page "/UpdateMovie/{IdMovie:int}"
+@inject IRepository _repository
+
+<h3>ApdateMovie</h3>
+<MovieForm Movie="Movie" OnValidSubmit="MovieUpdate" SelectClassification="SelectClassification" />
+
+@code {
+    [Parameter] public int IdMovie { get; set; }
+    public Movies Movie = new Movies();
+    private List<Classifications>? SelectClassification = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHttp = await _repository.Get<List<Classifications>>("/api/Classification");
+        SelectClassification = responseHttp.Response;
+
+        var responseMovie = await _repository.Get<Movies>($"/api/Movies/{IdMovie}");
+        Movie = responseMovie.Response;
+    }
+    private async Task MovieUpdate()
+    {
+        var responseHttp = await _repository.Put<Movies>("/api/Movies", Movie);
+        Console.WriteLine(responseHttp.Response);
+    }
+}
