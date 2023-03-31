@@ -2,6 +2,20 @@
 @inject IRepository _repository
 
 <h3>MoviesList</h3>
+<MudCarousel Class="mud-width-full" Style="height:700px;"
+             ShowArrows="@arrows" ShowBullets="@bullets"
+             EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle"
+             TData="Movies">
+    @foreach (var group in Movies.Chunk(4))
+    {
+        <MudCarouselItem>
+            @foreach (var movies in group)
+            {
+                <MudImage Src="@movies.Cover" Width="300" Height="550" />
+            }
+        </MudCarouselItem>
+    }
+</MudCarousel>
 
 <MudTable Items="@Movies" Virtualize="true">
     <HeaderContent>
@@ -21,6 +35,13 @@
 
 @code {
     private List<Movies> Movies { get; set; }
+
+
+    private bool arrows = true;
+    private bool bullets = false;
+    private bool enableSwipeGesture = true;
+    private bool autocycle = true;
+    private Transition transition = Transition.Slide;
 
     protected override async Task OnInitializedAsync()
     {
