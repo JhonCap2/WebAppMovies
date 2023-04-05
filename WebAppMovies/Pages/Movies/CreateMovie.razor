@@ -1,5 +1,6 @@
 ﻿@page "/CreateMovie"
 @inject IRepository _repository
+@inject IShowMessages showMessages
 
 <h3>CreateMovie</h3>
 <MovieForm Movie="Movie" OnValidSubmit="SaveMovie" SelectClassification="SelectClassification" />
@@ -15,8 +16,22 @@
     }
     private async Task SaveMovie()
     {
+
         var responseHttp = await _repository.Post<Movies>("/api/Movies", Movie);
-        Console.WriteLine(responseHttp.Response);
+        if (responseHttp.Error)
+        {
+            var errormenssage = await responseHttp.GetBody();
+            await showMessages.ShowErrorMessage(errormenssage);
+
+
+        } else
+        {
+            Console.WriteLine(responseHttp.Response);
+            await showMessages.ShowSuccessMessage($"The Movie {Movie.Title} Create Success");
+            Movie = new Movies();
+            
+        
+        }
     }
 }
 

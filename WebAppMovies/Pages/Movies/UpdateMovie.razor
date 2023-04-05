@@ -1,5 +1,6 @@
 ﻿@page "/UpdateMovie/{IdMovie:int}"
 @inject IRepository _repository
+@inject IShowMessages showMessages
 
 <h3>ApdateMovie</h3>
 <MovieForm Movie="Movie" OnValidSubmit="MovieUpdate" SelectClassification="SelectClassification" />
@@ -20,6 +21,18 @@
     private async Task MovieUpdate()
     {
         var responseHttp = await _repository.Put<Movies>("/api/Movies", Movie);
-        Console.WriteLine(responseHttp.Response);
+
+        if (responseHttp.Error)
+        {
+            var errormenssage = await responseHttp.GetBody();
+            await showMessages.ShowErrorMessage(errormenssage);
+        }
+        else
+        {
+            Console.WriteLine(responseHttp.Response);
+            await showMessages.ShowSuccessMessage($"The Movie {Movie.Title} Create Success");
+            
+        }
+
     }
 }

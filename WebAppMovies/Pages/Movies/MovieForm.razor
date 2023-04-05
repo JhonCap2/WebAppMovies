@@ -7,7 +7,7 @@
             <MudSelect T="int" Label="Classification" Variant="Variant.Text" @bind-Value="@Movie.IdClassification">
                 @foreach (var classifaication in SelectClassification)
                 {
-                    <MudSelectItem Value="@classifaication.IdClassification">@classifaication.Name </MudSelectItem>
+                    <strong><MudSelectItem Value="@classifaication.IdClassification"><center>@classifaication.Name</center></MudSelectItem></strong>
                 }
             </MudSelect>
         </MudCardContent>
