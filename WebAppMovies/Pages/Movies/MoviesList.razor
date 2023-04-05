@@ -3,7 +3,7 @@
 
 
 
-<MudCarousel Class="mud-width-full" Style="height:450px; width:1270px;"
+<MudCarousel Class="mud-width-full" Style="height:460px; width:1270px;"
              ShowArrows="@arrows" ShowBullets="@bullets"
              EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle"
              TData="Movies">
@@ -12,7 +12,7 @@
         <MudCarouselItem Class="d-flex flex-wrap">
             @foreach (var movies in group)
             {
-                <MudCard Elevation="0" Outlined="true" Style="width:300px; height:420px; margin-left:10px;">
+                <MudCard Elevation="0" Outlined="true" Style="width:300px; height:440px; margin-left:10px;">
                     <MudCardMedia Image="@movies.Cover.ToString()" Style="width:270px; height:380px; margin-top:10px; margin-left:10px;" />
                     <MudText Typo="Typo.subtitle2" Align="Align.Center">@movies.Title</MudText>
                 </MudCard>
@@ -21,32 +21,31 @@
     }
 </MudCarousel>
 
-<MudTable Items="@Movies" Virtualize="true">
-    <RowTemplate>
-        @foreach (var group in Movies.Chunk(4))
-        {
-            <MudCard Elevation="0" Outlined="true" Style="width:300px; height:180px; margin-left:10px;">
-                <MudCardContent>
-                    <div class="d-flex align-items-center">
-                        @foreach (var movie in group)
-                        {
-                            <div class="d-flex align-items-center me-5">
-                                <img src="@movie.Cover" width="150" height="150" alt="Descripción de la imagen" />
+<MudDivider/>
+<div class="d-flex flex-wrap" style="margin-top:20px;">
+    <div class="d-flex flex-wrap align-content-center">
+        <GenericList Lists="Movies">
+            <RecordFound Context="movie">
+                <MudLink Href="@($"ViewMovie/{@movie.IdMovie}")">
+                <MudCard Elevation="0" Outlined="true" Style="width:205px; height:290px; margin-left:10px;">
+                    <MudCardContent>
+                        <div class="flex-wrap align-content-center">
+                            <MudImage Src="@movie.Cover" Width="170" Height="220" Alt="@movie.Title" />
 
-                                <div class="d-flex flex-column">
-                                    <h3 class="mb-0">Title: @movie.Title</h3>
-                                    <p class="mb-2">Description: @movie.Description</p>
-                                    <p class="mb-0">Classification: @movie?.IdClassificationNavigation?.Name</p>
-                                    <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Update" Color="Color.Primary" Href="@($"UpdateMovie/{movie.IdMovie}")" ButtonType="ButtonType.Submit">Edit</MudButton>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </MudCardContent>
-            </MudCard>
-        }
-    </RowTemplate>
-</MudTable>
+
+                            <MudText Align="Align.Center" Typo="Typo.subtitle2">@movie.Title</MudText>
+                                @*<p class="mb-2">Description: @movie.Description</p>
+                                <p class="mb-0">Classification: @movie?.IdClassificationNavigation?.Name</p>
+                                <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Update" Color="Color.Primary" Href="@($"UpdateMovie/{movie.IdMovie}")" ButtonType="ButtonType.Submit">Edit</MudButton>*@
+                            
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+                </MudLink>
+            </RecordFound>
+        </GenericList>
+    </div>
+</div>
 
 
 

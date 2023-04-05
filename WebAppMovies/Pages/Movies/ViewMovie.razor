@@ -1,0 +1,47 @@
+﻿@page "/ViewMovie/{IdMovie:int}"
+@inject IRepository _repository
+
+
+
+<div class="flex-wrap align-content-center">
+
+    <MudText Align="Align.Center" Typo="Typo.h4">@Movie.Title</MudText>
+
+    <MudCard Elevation="0" Outlined="true" Style="width:350px; height:500px; margin-left:10px;">
+    <MudImage Src="@Movie.Cover" Width="350" Height="500" Alt="@Movie.Title" />
+   </MudCard>
+
+   <MudCard Outlined="true" Style="width:300px; height:500px; margin-left:10px;">
+    <MudText Align="Align.Center" Typo="Typo.subtitle1">Description: @Movie.Description</MudText>
+    <MudText Align="Align.Center" Typo="Typo.subtitle2">Classification: @Movie?.IdClassificationNavigation?.Name</MudText>
+    <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Update" Color="Color.Primary" Href="@($"UpdateMovie/{Movie.IdMovie}")" ButtonType="ButtonType.Submit">Edit</MudButton>
+    </MudCard>
+
+</div>
+
+
+@code {
+    [Parameter] public int IdMovie { get; set; }
+    public Movies Movie { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await _repository.Get<Movies>($"api/Movies/{IdMovie}");
+            if (response.Error)
+            {
+                Console.WriteLine(response.GetBody());
+            }
+            else if (response.Response != null)
+            {
+                Movie = response.Response;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Manejar el error de alguna manera, por ejemplo, mostrar un mensaje de error en la página
+        }
+    }
+}
