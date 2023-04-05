@@ -2,21 +2,22 @@
 @inject IRepository _repository
 
 
+<div class="d-flex flex-wrap" style="margin-top:20px;">
+    <div class="flex-wrap align-content-center">
 
-<div class="flex-wrap align-content-center">
+        <MudText Align="Align.Center" Typo="Typo.h4">@Movie.Title</MudText>
+        <MudCard Elevation="0" Outlined="true" Style="width:1200px; height:520px; margin-left:10px;">
+            <div class="d-flex flex-wrap">
+                <MudImage Src="@Movie.Cover" Width="350" Height="500" Alt="@Movie.Title" />
+                <div class="flex-column" style="width: 800px; height: 500px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
 
-    <MudText Align="Align.Center" Typo="Typo.h4">@Movie.Title</MudText>
-
-    <MudCard Elevation="0" Outlined="true" Style="width:350px; height:500px; margin-left:10px;">
-    <MudImage Src="@Movie.Cover" Width="350" Height="500" Alt="@Movie.Title" />
-   </MudCard>
-
-   <MudCard Outlined="true" Style="width:300px; height:500px; margin-left:10px;">
-    <MudText Align="Align.Center" Typo="Typo.subtitle1">Description: @Movie.Description</MudText>
-    <MudText Align="Align.Center" Typo="Typo.subtitle2">Classification: @Movie?.IdClassificationNavigation?.Name</MudText>
-    <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Update" Color="Color.Primary" Href="@($"UpdateMovie/{Movie.IdMovie}")" ButtonType="ButtonType.Submit">Edit</MudButton>
-    </MudCard>
-
+                    <MudText Typo="Typo.subtitle1">Description: @Movie.Description</MudText>
+                    <MudText Typo="Typo.subtitle2">Classification: @Movie?.IdClassificationNavigation?.Name</MudText>
+                </div>
+            </div>
+        </MudCard>
+        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Update" Color="Color.Primary" Href="@($"UpdateMovie/{Movie.IdMovie}")" ButtonType="ButtonType.Submit">Edit</MudButton>
+    </div>
 </div>
 
 
